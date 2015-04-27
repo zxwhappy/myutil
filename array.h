@@ -12,11 +12,12 @@ typedef struct _array_s {
 
 
 array_t *array_create(unsigned int n, size_t size);
-void array_destroy(array_t **a);
+void array_destroy(array_t *a);  //当array_t是在栈上声明时，销毁的时候调用
+void array_free(array_t **a);    //当array_t是在堆上声明时，销毁的时候调用
 void *array_push(array_t *a);
 void *array_push_n(array_t *a, unsigned int n);
 
-
+//当array_t是在栈上声明时，初始化时调用
 static inline int
 array_init(array_t *array, unsigned int n, size_t size)
 {

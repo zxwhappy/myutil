@@ -1,5 +1,6 @@
 #include "array.h"
 
+//当array_t是在堆上声明时，初始化时调用
 array_t *
 array_create(unsigned int n, size_t size)
 {
@@ -17,9 +18,23 @@ array_create(unsigned int n, size_t size)
     return a;
 }
 
-
+//当array_t是在栈上声明时，销毁的时候调用
 void
-array_destroy(array_t **a)
+array_destroy(array_t *a)
+{
+    if (a == NULL){
+        return;
+    }
+
+    if (a->elts != NULL){
+        free(a->elts);
+        a->elts = NULL;
+    }
+}
+
+//当array_t是在堆上声明时，销毁的时候调用
+void
+array_free(array_t **a)
 {
     if (*a == NULL){
         return;
@@ -33,7 +48,6 @@ array_destroy(array_t **a)
     free(*a);
     (*a) = NULL;
 }
-
 
 void *
 array_push(array_t *a)
